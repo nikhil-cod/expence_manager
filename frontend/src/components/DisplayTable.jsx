@@ -11,9 +11,9 @@ function DisplayTable() {
   }
 
   const createNewExpence = (data) => {
-    setExpences([...expences, data])
+    setExpences([...expences, data]);
+    setOpenCreateExpence(false);
   }
-  console.log("expences", expences)
   return (
     <>
       <Button onClick={() => setOpenCreateExpence(true)}>Create Expence</Button>

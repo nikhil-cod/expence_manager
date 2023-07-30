@@ -11,9 +11,7 @@ function CreateExpence({ openCreateExpence, setCreateExpence ,createNewExpence})
     const [date, setDate] = useState(`${newdate.getFullYear()}-${monthnow}-${newdate.getDate()}`);
     const [title,setTitle]=useState("");
     const [amount,setAmount]= useState("");
-    console.log("Date ==> ",date)
 
-    
     return (
         <>
             <Modal show={openCreateExpence} onHide={() => setCreateExpence(false)}>
@@ -44,7 +42,7 @@ function CreateExpence({ openCreateExpence, setCreateExpence ,createNewExpence})
                     <Button variant="secondary" onClick={() => setCreateExpence(false)}>
                         Close
                     </Button>
-                    <Button variant="primary" onClick={() => createNewExpence({date,amount,title})}>
+                    <Button variant="primary" onClick={() => {createNewExpence({date,amount,title});setAmount("");setTitle("")}}>
                         Add Expence
                     </Button>
                 </Modal.Footer>
