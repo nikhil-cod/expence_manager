@@ -3,6 +3,7 @@ import Table from 'react-bootstrap/Table';
 import CreateExpence from './CreateExpence';
 import Button from 'react-bootstrap/Button';
 import { createExpence, getExpence } from '../services/apiservices';
+import { FaTrashAlt, FaPen } from "react-icons/fa";
 function DisplayTable() {
   const [openCreateExpence, setOpenCreateExpence] = useState(false);
   const [expences, setExpences] = useState([{}]);
@@ -23,7 +24,7 @@ function DisplayTable() {
   }
 
   const createNewExpence = async (data) => {
-    createExpence(data).then(()=>{
+    createExpence(data).then(() => {
       getData(data);
     });
     setOpenCreateExpence(false);
@@ -40,6 +41,8 @@ function DisplayTable() {
             <th>Date</th>
             <th>Title</th>
             <th>Money Spent</th>
+            <th>Edit</th>
+            <th>Delete</th>
           </tr>
         </thead>
         <tbody>
@@ -49,7 +52,8 @@ function DisplayTable() {
                 <td>{data?.date}</td>
                 <td>{data?.title}</td>
                 <td>{data?.amount}</td>
-                <td><i class="bi bi-pen"></i></td>
+                <td><FaPen className='cursor-pointer' /></td>
+                <td><FaTrashAlt className='cursor-pointer' /></td>
               </tr>
             })
           }
