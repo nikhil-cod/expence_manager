@@ -11,3 +11,8 @@ exports.createExpence = async (req, resp) => {
 
   resp.status(201).json({ message: "OTP has been sent to your email" });
 };
+
+exports.getExpences = async(req, resp)=>{
+const data1 =await expenceSchema.find({});
+resp.status(201).json(data1);
+}

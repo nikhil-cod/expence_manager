@@ -8,10 +8,11 @@ function CreateExpence({ openCreateExpence, setCreateExpence ,createNewExpence})
     const newdate = new Date();
     const month = newdate.getMonth()+1;
     const monthnow = newdate.getMonth()>8?newdate.getMonth()+1:"0"+(month);
-    const [date, setDate] = useState(`${newdate.getFullYear()}-${monthnow}-${newdate.getDate()}`);
+    const dateNow= newdate.getDate()>8?newdate.getDate():"0"+(newdate.getDate());
+    const [date, setDate] = useState(`${newdate.getFullYear()}-${monthnow}-${dateNow}`);
     const [title,setTitle]=useState("");
     const [amount,setAmount]= useState("");
-
+console.log("date ==>",`${newdate.getFullYear()}-${monthnow}-${newdate.getDate()}`)
     return (
         <>
             <Modal show={openCreateExpence} onHide={() => setCreateExpence(false)}>
