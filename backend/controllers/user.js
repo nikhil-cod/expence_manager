@@ -12,7 +12,21 @@ exports.createExpence = async (req, resp) => {
   resp.status(201).json({ message: "OTP has been sent to your email" });
 };
 
-exports.getExpences = async(req, resp)=>{
-const data1 =await expenceSchema.find({});
-resp.status(201).json(data1);
-}
+exports.getExpences = async (req, resp) => {
+  const data1 = await expenceSchema.find({});
+  resp.status(201).json(data1);
+};
+
+exports.deleteExpence = async (req, resp) => {
+  await expenceSchema.deleteOne({
+    _id: req.id,
+  });
+  resp.status(201).json("Expence Deleted Successfully");
+};
+
+exports.editExpence = async (req, resp) => {
+await expenceSchema.updateOne({
+    _id: req._id,
+  },req);
+  resp.status(201).json("Expence Edited Successfully");
+};
