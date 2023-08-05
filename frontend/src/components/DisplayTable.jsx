@@ -2,19 +2,19 @@ import { useEffect, useState } from 'react';
 import Table from 'react-bootstrap/Table';
 import CreateExpence from './CreateExpence';
 import Button from 'react-bootstrap/Button';
-import { createExpence, getExpence } from '../services/apiservices';
+import { createExpence, deleteExpence, editExpence, getExpence } from '../services/apiservices';
 import { FaTrashAlt, FaPen } from "react-icons/fa";
 function DisplayTable() {
   const [openCreateExpence, setOpenCreateExpence] = useState(false);
   const [expences, setExpences] = useState([{}]);
-
+  const [data, setData] = useState("");
   useEffect(() => {
     getData();
   }, [])
 
 
-  const getData = () => {
-    getExpence().then((data) => {
+  const getData = async () => {
+    await getExpence().then((data) => {
       setExpences(data);
     });
   }
@@ -24,17 +24,37 @@ function DisplayTable() {
   }
 
   const createNewExpence = async (data) => {
-    createExpence(data).then(() => {
-      getData(data);
+    await createExpence(data).then(() => {
+      getData();
     });
     setOpenCreateExpence(false);
   }
 
+  const deleteData = async (data) => {
+    await deleteExpence(data).then(() => {
+      getData();
+    })
+  }
 
+  const editData = async (data) => {
+    console.log("Edit data", data)
+    setData(data);
+    setOpenCreateExpence(true);
+    // await editExpence(data).then(() => {
+    //   getData();
+    // })
+  }
+
+
+  const confirmEdit = async (data) => {
+    await editExpence(data).then(() => {
+      getData();
+    })
+  }
   return (
     <>
       <Button onClick={() => setOpenCreateExpence(true)}>Create Expence</Button>
-      {<CreateExpence openCreateExpence={openCreateExpence} setCreateExpence={setCreateExpence} createNewExpence={createNewExpence} />}
+      {openCreateExpence && <CreateExpence confirmEdit={confirmEdit} openCreateExpence={openCreateExpence} setCreateExpence={setCreateExpence} createNewExpence={createNewExpence} data={data ? data : ""} />}
       <Table striped>
         <thead>
           <tr>
@@ -52,8 +72,8 @@ function DisplayTable() {
                 <td>{data?.date}</td>
                 <td>{data?.title}</td>
                 <td>{data?.amount}</td>
-                <td><FaPen className='cursor-pointer' /></td>
-                <td><FaTrashAlt className='cursor-pointer' /></td>
+                <td><FaPen className='cursor-pointer' onClick={() => editData(data)} /></td>
+                <td><FaTrashAlt className='cursor-pointer' onClick={() => deleteData(data)} /></td>
               </tr>
             })
           }

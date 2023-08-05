@@ -18,15 +18,16 @@ exports.getExpences = async (req, resp) => {
 };
 
 exports.deleteExpence = async (req, resp) => {
+  console.log("Coming req",req)
   await expenceSchema.deleteOne({
-    _id: req.id,
+    _id: req.body._id,
   });
   resp.status(201).json("Expence Deleted Successfully");
 };
 
 exports.editExpence = async (req, resp) => {
 await expenceSchema.updateOne({
-    _id: req._id,
-  },req);
+    _id: req.body._id,
+  },req.body);
   resp.status(201).json("Expence Edited Successfully");
 };
