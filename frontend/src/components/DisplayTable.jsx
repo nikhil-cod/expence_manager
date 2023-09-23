@@ -55,7 +55,7 @@ function DisplayTable() {
     <>
       <Button onClick={() => setOpenCreateExpence(true)}>Create Expence</Button>
       {openCreateExpence && <CreateExpence confirmEdit={confirmEdit} openCreateExpence={openCreateExpence} setCreateExpence={setCreateExpence} createNewExpence={createNewExpence} data={data ? data : ""} />}
-      <Table striped>
+      <Table striped className='m-2'>
         <thead>
           <tr>
             <th>Date</th>
