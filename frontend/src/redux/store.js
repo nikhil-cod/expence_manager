@@ -1,12 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit'
-import { combineReducers } from '@reduxjs/toolkit'
-import cardItems from './Reducer'
-// export default configureStore({
-//   reducer: {
-   
-//   },
-// })
+import allStates from './Reducer';
 
 export default configureStore({
-  reducer:cardItems
+  reducer:allStates
 })
