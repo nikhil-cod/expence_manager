@@ -1,14 +1,20 @@
 import { useEffect, useState } from 'react';
 import Table from 'react-bootstrap/Table';
+import Container from 'react-bootstrap/Container';
 import CreateExpence from './CreateExpence';
 import { createExpence, deleteExpence, editExpence, getExpence } from '../services/apiservices';
 import { FaTrashAlt, FaPen } from "react-icons/fa";
-import { useDispatch } from 'react-redux';
+import { useDispatch,useSelector } from 'react-redux';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 import { EDIT_DATA, IS_EXPENCE_POPUP } from '../redux/constants';
+import { months } from '../utils/required';
 function DisplayTable() {
   const [openCreateExpence, setOpenCreateExpence] = useState(false);
   const [expences, setExpences] = useState([{}]);
+  let totalAmount =0;
   const [data, setData] = useState("");
+  const monthState = useSelector((state) => state.monthToShow);
   const dispatch = useDispatch();
   useEffect(() => {
     getData();
@@ -64,8 +70,8 @@ function DisplayTable() {
     })
   }
   return (
-    <div className='p-4'>
-      <Table striped bordered className='p-4'>
+    <Container>
+      <Table striped bordered>
       {<CreateExpence setCreateExpence={setCreateExpence} createNewExpence={createNewExpence} data={data ? data : ""} confirmEdit={confirmEdit}/>}
         <thead>
           <tr>
@@ -79,6 +85,9 @@ function DisplayTable() {
         <tbody>
           {
             expences?.map((data, index) => {
+              var arr = data?.date?.split("-");
+              if(arr && monthState==arr[1]){
+                totalAmount+=data?.amount;
               return <tr>
                 <td>{data?.date}</td>
                 <td>{data?.title}</td>
@@ -86,11 +95,18 @@ function DisplayTable() {
                 <td className='text-center'><FaPen className='cursor-pointer' onClick={() => editData(data)} /></td>
                 <td className='text-center'><FaTrashAlt className='cursor-pointer' onClick={() => deleteData(data)} /></td>
               </tr>
+              }
             })
           }
         </tbody>
       </Table>
-    </div>
+      {/* <Row className='m-1' style={{backgroundColor:"#e2e3e5",borderRadius:"4px", height:"50px", border:"3px groove lightgrey"}}> */}
+        {/* <Col>1 of 1</Col> */}
+        <div className='py-1 px-3' style={{backgroundColor:"#e2e3e5",borderRadius:"2px", height:"50px", border:"1px groove lightgrey"}}>
+        <h3 className='text-end' style={{color:"gray"}}>You have spent {totalAmount} in {months[monthState-1]}.</h3>
+        </div>
+      {/* </Row> */}
+    </Container>
   );
 }
 
